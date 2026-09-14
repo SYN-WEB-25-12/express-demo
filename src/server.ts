@@ -1,5 +1,4 @@
 import express from 'express'
-import { timeStamp } from 'node:console'
 
 const PORT = 3000
 const server = express()
