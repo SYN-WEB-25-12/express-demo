@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { type Request, type Response, type NextFunction } from 'express'
 import cors from 'cors'
 import { v4 as uuid } from 'uuid';
 import cookieParser from 'cookie-parser'
@@ -97,6 +97,22 @@ type SessionId = string;
 type Session = string;
 const sessions = new Map<SessionId, Session>();
 
+type RequestWithSession = Request & { session?: Session }
+
+const checkAuth = (req: RequestWithSession, res: Response, next: NextFunction) => {
+  const { sessionId } = req.cookies;
+
+  const session = sessions.get(sessionId);
+
+    if (!session) {
+        return res.status(401).json({ error: "Not signed in." });
+    }
+
+    req.session = session
+
+    next()
+}
+
 server.post("/login", (req, res) => {
     const { username, password } = req.body;
     if (username !== 'admin' || password !== '123') {
@@ -114,18 +130,10 @@ server.post("/login", (req, res) => {
     res.json({ message: "Login succeeded!" });
 })
 
-server.post("/me", (req, res) => {
-  const { sessionId } = req.cookies;
-
-  const session = sessions.get(sessionId);
-
-    if (!session) {
-        return res.status(401).json({ error: "Not signed in." });
-    }
-
+server.post("/me", checkAuth, (req: RequestWithSession, res) => {
     res.json({ 
         message: "My profile", 
-        user: session 
+        session: req.session 
     });
 })
 
