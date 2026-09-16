@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { v4 as uuid } from 'uuid';
+import cookieParser from 'cookie-parser'
 
 const PORT = 3000
 const server = express()
@@ -8,7 +9,7 @@ const server = express()
 // Middlewares registrieren
 
 server.use(express.json());
-
+server.use(cookieParser());
 
 // ============================================================
 // CORS = Cross-Origin Resource Sharing
@@ -111,6 +112,21 @@ server.post("/login", (req, res) => {
         sameSite: 'lax' 
     });
     res.json({ message: "Login succeeded!" });
+})
+
+server.post("/me", (req, res) => {
+  const { sessionId } = req.cookies;
+  const session = sessions.get(sessionId);
+
+    if (!session) {
+        return res.status(401).json({ error: "Not signed in." });
+    }
+
+    res.json({ 
+        message: "My profile", 
+        user: session 
+    });
+
 })
 
 server.listen(PORT, () => {
