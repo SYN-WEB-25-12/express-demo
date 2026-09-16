@@ -116,6 +116,7 @@ server.post("/login", (req, res) => {
 
 server.post("/me", (req, res) => {
   const { sessionId } = req.cookies;
+
   const session = sessions.get(sessionId);
 
     if (!session) {
@@ -126,7 +127,23 @@ server.post("/me", (req, res) => {
         message: "My profile", 
         user: session 
     });
+})
 
+server.post("/logout", (req, res) => {
+    const { sessionId } = req.cookies;
+    
+    if (sessionId) {
+        sessions.delete(sessionId);
+    }
+
+    res.clearCookie('sessionId', {
+        httpOnly: true,
+        sameSite: 'lax'
+    })
+
+    res.json({
+        message: "Erfolgreich abgemeldet."
+    })
 })
 
 server.listen(PORT, () => {
