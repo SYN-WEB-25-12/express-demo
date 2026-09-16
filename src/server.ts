@@ -2,6 +2,7 @@ import express, { type Request, type Response, type NextFunction } from 'express
 import cors from 'cors'
 import { v4 as uuid } from 'uuid';
 import cookieParser from 'cookie-parser'
+import morgan from 'morgan'
 
 const PORT = 3000
 const server = express()
@@ -10,6 +11,7 @@ const server = express()
 
 server.use(express.json());
 server.use(cookieParser());
+server.use(morgan("dev"));
 
 // ============================================================
 // CORS = Cross-Origin Resource Sharing
