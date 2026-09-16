@@ -1,8 +1,13 @@
 import express from 'express'
 import cors from 'cors'
+import { v4 as uuid } from 'uuid';
 
 const PORT = 3000
 const server = express()
+
+// Middlewares registrieren
+
+server.use(express.json());
 
 
 // ============================================================
@@ -87,7 +92,26 @@ server.get("/todos", (_, res) => {
     res.status(200).json({ todos })
 })
 
+type SessionId = string;
+type Session = string;
+const sessions = new Map<SessionId, Session>();
 
+server.post("/login", (req, res) => {
+    const { username, password } = req.body;
+    if (username !== 'admin' || password !== '123') {
+        return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const sessionId = uuid();
+    sessions.set(sessionId, username);
+
+    res.cookie('sessionId', sessionId, { 
+        httpOnly: true, 
+        secure: false,
+        sameSite: 'lax' 
+    });
+    res.json({ message: "Login succeeded!" });
+})
 
 server.listen(PORT, () => {
     console.log("Server started on port", PORT)
