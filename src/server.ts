@@ -1,9 +1,11 @@
 import express, { type Request, type Response, type NextFunction } from 'express'
 import cors from 'cors'
-import { v4 as uuid } from 'uuid';
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import todoRoutes from "./todo/todo.routes.js"
+import { checkAuth } from './auth/auth.middleware.js';
+import { type RequestWithSession } from './auth/auth.types.js';
+import authRoutes from "./auth/auth.routes.js"
 
 const PORT = 3000
 const server = express()
@@ -14,6 +16,7 @@ server.use(express.json());
 server.use(cookieParser());
 server.use(morgan("dev"));
 server.use("/todos", todoRoutes);
+server.use(authRoutes)
 
 // ============================================================
 // CORS = Cross-Origin Resource Sharing
@@ -71,65 +74,11 @@ server.get("/health", (_, res) => {
     })
 })
 
-type SessionId = string;
-type Session = string;
-const sessions = new Map<SessionId, Session>();
-
-type RequestWithSession = Request & { session?: Session }
-
-const checkAuth = (req: RequestWithSession, res: Response, next: NextFunction) => {
-  const { sessionId } = req.cookies;
-
-  const session = sessions.get(sessionId);
-
-    if (!session) {
-        return res.status(401).json({ error: "Not signed in." });
-    }
-
-    req.session = session
-
-    next()
-}
-
-server.post("/login", (req, res) => {
-    const { username, password } = req.body;
-    if (username !== 'admin' || password !== '123') {
-        return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const sessionId = uuid();
-    sessions.set(sessionId, username);
-
-    res.cookie('sessionId', sessionId, { 
-        httpOnly: true, 
-        secure: false,
-        sameSite: 'lax' 
-    });
-    res.json({ message: "Login succeeded!" });
-})
-
 server.post("/me", checkAuth, (req: RequestWithSession, res) => {
     res.json({ 
         message: "My profile", 
         session: req.session 
     });
-})
-
-server.post("/logout", (req, res) => {
-    const { sessionId } = req.cookies;
-    
-    if (sessionId) {
-        sessions.delete(sessionId);
-    }
-
-    res.clearCookie('sessionId', {
-        httpOnly: true,
-        sameSite: 'lax'
-    })
-
-    res.json({
-        message: "Erfolgreich abgemeldet."
-    })
 })
 
 server.listen(PORT, () => {
