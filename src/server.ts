@@ -3,6 +3,7 @@ import cors from 'cors'
 import { v4 as uuid } from 'uuid';
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
+import todoRoutes from "./todo/todo.routes.js"
 
 const PORT = 3000
 const server = express()
@@ -12,6 +13,7 @@ const server = express()
 server.use(express.json());
 server.use(cookieParser());
 server.use(morgan("dev"));
+server.use("/todos", todoRoutes);
 
 // ============================================================
 // CORS = Cross-Origin Resource Sharing
@@ -67,32 +69,6 @@ server.get("/health", (_, res) => {
         message: "Server is running",
         timestamp: new Date().toISOString()
     })
-})
-
-// Todos im Speicher (noch keine Datenbank)
-// const Array: die Variable todos bleibt dieselbe Liste,
-// aber wir dürfen Einträge mit .push() hinzufügen.
-// Wichtig: Nach einem Server-Neustart ist die Liste wieder leer (nur RAM).
-const todos: string[] = []
-
-// POST = neue Daten ANLEGEN (nicht lesen)
-// Query: POST / todos?text=Wasser
-// 201 -> Created -> Ressource wurde ertellt
-// 400 -> Bad Request -> Anfrage war fehlerhaft(hier: text fehlt)
-server.post("/todos", (req, res) => {
-    const { text } = req.query
-
-    if (text) {
-        todos.push(String(text))
-        res.status(201).send()
-    } else {
-        res.status(400).send()
-    }
-})
-
-//GET /todos -> die aktuelle Liste als JSON zurückgeben
-server.get("/todos", (_, res) => {
-    res.status(200).json({ todos })
 })
 
 type SessionId = string;
