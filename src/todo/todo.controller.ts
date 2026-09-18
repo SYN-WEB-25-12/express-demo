@@ -9,6 +9,14 @@ function createTodo(req: Request<any, any, { text: string }>, res: Response) {
     res.status(201).send()
 }
 
+function deleteTodo(req: Request<{ index: number }>, res: Response) {
+    const { index } = req.params
+
+    todoService.delete(index)
+
+    res.json({ message: `Todo at index ${index} deleted` })
+}
+
 function getAllTodos(req: Request, res: Response) {
     const todos = todoService.getAll()
     res.status(200).json({ todos })
@@ -16,5 +24,6 @@ function getAllTodos(req: Request, res: Response) {
 
 export default {
     create: createTodo,
+    delete: deleteTodo,
     getAll: getAllTodos
 }

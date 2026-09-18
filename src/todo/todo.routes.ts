@@ -6,6 +6,7 @@ const router = Router()
 
 router.get("/", todoController.getAll)
 router.post("/", todoController.create)
+router.delete("/:index", todoController.delete)
 router.use(checkTodoErrors)
 
 export default router
