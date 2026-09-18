@@ -18,9 +18,7 @@ function login(req: Request, res: Response) {
 function logout(req: Request, res: Response) {
     const { sessionId } = req.cookies;
 
-    if (sessionId) {
-        authService.logout(sessionId)
-    }
+    authService.logout(sessionId)
 
     res.clearCookie('sessionId', {
         httpOnly: true,

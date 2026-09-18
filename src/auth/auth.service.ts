@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { type SessionId, type Session } from './auth.types.js';
-import { AuthenticationFailed } from './auth.errors.js';
+import { AuthenticationFailed, SessionIdNotProvided } from './auth.errors.js';
 
 const sessions = new Map<SessionId, Session>();
 
@@ -16,6 +16,10 @@ function login(username: string, password: string) {
 }
 
 function logout(sessionId: string) {
+    if (!sessionId) {
+        throw new SessionIdNotProvided()
+    }
+
     sessions.delete(sessionId);
 }
 
