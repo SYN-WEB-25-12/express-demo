@@ -5,6 +5,8 @@ import { AuthenticationFailed, SessionIdNotProvided, SessionNotFound } from './a
 const sessions = new Map<SessionId, Session>();
 
 function login(username: string, password: string) {
+    throw new Error("Surprise!")
+
     if (username !== 'admin' || password !== '123') {
         throw new AuthenticationFailed(username)
     }
