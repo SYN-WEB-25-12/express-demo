@@ -1,10 +1,10 @@
 import todoService from "./todo.service.js"
 import { type Request, type Response } from "express"
 
-function createTodo(req: Request, res: Response) {
+function createTodo(req: Request<any, any, { text: string }>, res: Response) {
     const { text } = req.body
 
-    todoService.create(String(text))
+    todoService.create(text)
     
     res.status(201).send()
 }
