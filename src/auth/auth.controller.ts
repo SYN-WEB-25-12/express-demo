@@ -6,10 +6,6 @@ function login(req: Request, res: Response) {
 
     const sessionId = authService.login(username, password);
 
-    if (!sessionId) {
-        return res.status(401).json({ error: "Invalid credentials" });
-    }
-
     res.cookie('sessionId', sessionId, { 
         httpOnly: true, 
         secure: false,
