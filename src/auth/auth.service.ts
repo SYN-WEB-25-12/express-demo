@@ -1,11 +1,12 @@
 import { v4 as uuid } from 'uuid';
 import { type SessionId, type Session } from './auth.types.js';
+import { AuthenticationFailed } from './auth.errors.js';
 
 const sessions = new Map<SessionId, Session>();
 
 function login(username: string, password: string) {
     if (username !== 'admin' || password !== '123') {
-        return null
+        throw new AuthenticationFailed(username)
     }
 
     const sessionId = uuid();
