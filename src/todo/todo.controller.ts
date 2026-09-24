@@ -1,5 +1,5 @@
 import todoService from "./todo.service.js"
-import { type Request, type Response } from "express"
+import type { Request, Response } from "express"
 
 function createTodo(req: Request<any, any, { text: string }>, res: Response) {
     const { text } = req.body
@@ -17,7 +17,7 @@ function deleteTodo(req: Request<{ index: number }>, res: Response) {
     res.json({ message: `Todo at index ${index} deleted` })
 }
 
-function getAllTodos(req: Request, res: Response) {
+function getAllTodos(_: Request, res: Response) {
     const todos = todoService.getAll()
     res.status(200).json({ todos })
 }

@@ -1,4 +1,4 @@
-import { type Request, type Response } from "express"
+import type { Request, Response } from "express"
 import userService from "./user.service.js"
 
 async function registerUser(req: Request<any, any, { username: string }>, res: Response) {
@@ -9,7 +9,7 @@ async function registerUser(req: Request<any, any, { username: string }>, res: R
     res.status(201).json(user)
 }
 
-async function getAllUsers(req: Request, res: Response) {
+async function getAllUsers(_: Request, res: Response) {
     const users = await userService.getAll()
     
     res.json(users)

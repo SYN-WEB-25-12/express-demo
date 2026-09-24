@@ -1,4 +1,4 @@
-import { type Response, type Request, type NextFunction } from 'express'
+import type { Response, Request, NextFunction } from 'express'
 
 export const handleRouteNotFoundError = (req: Request, res: Response) => {
     const message = `Route not found: ${req.originalUrl}`
@@ -6,7 +6,7 @@ export const handleRouteNotFoundError = (req: Request, res: Response) => {
     return res.status(404).json({ error: message })
 }
 
-export const handleFallbackError = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const handleFallbackError = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
     if (err instanceof SyntaxError) {
       return res.status(400).json({ error: "The request body could not be parsed." })
     }
