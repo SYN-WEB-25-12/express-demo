@@ -13,7 +13,7 @@ async function registerUser(req: Request<any, any, { username: string }>, res: R
 async function getAllUsers(req: Request, res: Response) {
     const users = await userService.getAll()
     
-    res.json({ users })
+    res.json(users)
 }
 
 
