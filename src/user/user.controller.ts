@@ -4,9 +4,10 @@ import userService from "./user.service.js"
 async function registerUser(req: Request<any, any, { username: string }>, res: Response) {
     const { username } = req.body
 
-    await userService.register(username)
+    const user = await userService.register(username)
     
-    res.status(201).send()
+    res.status(201).json(user)
+    
 }
 
 async function getAllUsers(req: Request, res: Response) {

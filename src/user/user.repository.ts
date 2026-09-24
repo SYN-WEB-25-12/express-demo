@@ -4,7 +4,7 @@ import { getPostgresPool } from "../db/config.postgres.js";
 const pool = getPostgresPool()
 
 async function createUser(username: string): Promise<User | null> {
-    const sql = "INSERT INTO users (username) VALUES ($1) RETURNING (id, username);"
+    const sql = "INSERT INTO users (username) VALUES ($1) RETURNING id, username;"
 
     const result = await pool.query<User>(sql, [username])
     
@@ -15,7 +15,7 @@ async function getAllUsers(): Promise<User[]> {
     const sql = "SELECT id, username FROM users;"
 
     const result = await pool.query<User>(sql)
-    
+
     return result.rows
 }
 
