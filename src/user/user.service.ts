@@ -1,12 +1,12 @@
 import { UserCreationFailed, UsernameTooShort } from "./user.errors.js"
 import userRepository from "./user.repository.js"
 
-function registerUser(username: string) {
+async function registerUser(username: string) {
     if (username.length < UsernameTooShort.minLength) {
         throw new UsernameTooShort(username)
     }
 
-    const user = userRepository.create(username)
+    const user = await userRepository.create(username)
 
     if (!user) {
         throw new UserCreationFailed(username)
@@ -15,7 +15,11 @@ function registerUser(username: string) {
     return user
 }
 
+async function getAllUsers() {
+    return await userRepository.getAll()
+}
 
 export default {
-    register: registerUser
+    register: registerUser,
+    getAll: getAllUsers
 }
