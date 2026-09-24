@@ -4,7 +4,7 @@ import morgan from 'morgan'
 import todoRoutes from "./todo/todo.routes.js"
 import authRoutes from "./auth/auth.routes.js"
 import experimentsRouter from "./experiments.js"
-import { handleFallbackError, handleRouteNotFoundError } from './errors.js'
+import { handleFallbackError, handleRouteNotFoundError } from './middleware.js'
 import { getPostgresPool } from './db/config.postgres.js'
 import userRoutes from './user/user.routes.js'
 
