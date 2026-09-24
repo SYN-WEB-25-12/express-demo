@@ -20,7 +20,7 @@ app.use(authRouter)
 app.use("/todos", todoRouter)
 app.use("/users", userRouter)
 
-// Global errors
+// Errors
 app.use(handleRouteNotFoundError)
 app.use(handleFallbackError)
 
