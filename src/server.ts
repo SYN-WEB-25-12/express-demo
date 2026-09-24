@@ -22,9 +22,6 @@ server.use("/users", userRouter)
 server.use(handleRouteNotFoundError)
 server.use(handleFallbackError)
 
-const pool = getPostgresPool()
-const result = await pool.query("SELECT 1;")
-
 server.listen(PORT, () => {
     console.log("Server started on port", PORT)
 })
