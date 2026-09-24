@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
 import { UserCreationFailed, UsernameTooShort } from './user.errors.js';
 
-export const checkUserErrors = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const handleUserErrors = (err: Error, req: Request, res: Response, next: NextFunction) => {    
   if (err instanceof UsernameTooShort) {
     return res.status(400).json({ error: err.message });
   }

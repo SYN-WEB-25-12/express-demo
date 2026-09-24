@@ -1,6 +1,6 @@
 import { Router } from "express"
 import userController from "./user.controller.js"
-import { checkUserErrors as handleUserErrors } from "./user.middleware.js"
+import { handleUserErrors } from "./user.middleware.js"
 
 const userRouter = Router()
 

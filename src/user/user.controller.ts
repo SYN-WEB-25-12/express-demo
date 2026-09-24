@@ -7,7 +7,6 @@ async function registerUser(req: Request<any, any, { username: string }>, res: R
     const user = await userService.register(username)
     
     res.status(201).json(user)
-    
 }
 
 async function getAllUsers(req: Request, res: Response) {

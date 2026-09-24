@@ -7,6 +7,10 @@ export const handleRouteNotFoundError = (req: Request, res: Response) => {
 }
 
 export const handleFallbackError = (err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof SyntaxError) {
+      return res.status(400).json({ error: "The request body could not be parsed." })
+    }
+
     console.log("An unknown error was thrown:", err)
     return res.status(500).json({ error: "Internal Server Error" });
 }
