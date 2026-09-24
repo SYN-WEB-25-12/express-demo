@@ -2,6 +2,7 @@ import { Router } from "express"
 import { checkAuth } from "./auth/auth.middleware.js"
 import { type RequestWithSession } from "./auth/auth.types.js"
 import cors from 'cors'
+import { getPostgresPool } from "./db/config.postgres.js"
 
 const router = Router()
 
@@ -53,9 +54,12 @@ router.get("/hi/:name", (req, res) => {
 
 // .status(CODE) setzt den HTTP-Status (200 = OK)
 // .json(...) setzt den Body als JSON (nicht als Text)
-router.get("/health", (_, res) => {
+router.get("/health", async (_, res) => {
+    const pool = getPostgresPool()
+
     res.status(200).json({
         success: true,
+        database: (await pool.query("SELECT 1;")).rowCount,
         message: "Server is running",
         timestamp: new Date().toISOString()
     })
