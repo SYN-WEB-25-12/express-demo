@@ -5,7 +5,6 @@ import todoRouter from "./todo/todo.router.js"
 import authRouter from "./auth/auth.router.js"
 import experimentsRouter from "./experiments.js"
 import { handleFallbackError, handleRouteNotFoundError } from './middleware.js'
-import { getPostgresPool } from './db/config.postgres.js'
 import userRouter from './user/user.router.js'
 
 const PORT = 3000
