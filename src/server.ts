@@ -5,6 +5,7 @@ import todoRoutes from "./todo/todo.routes.js"
 import authRoutes from "./auth/auth.routes.js"
 import experimentsRouter from "./experiments.js"
 import { handleFallbackError, handleRouteNotFoundError } from './errors.js'
+import { getPostgresPool } from './db/config.postgres.js'
 
 const PORT = 3000
 const server = express()
@@ -18,6 +19,9 @@ server.use(authRoutes)
 server.use("/todos", todoRoutes);
 server.use(handleRouteNotFoundError)
 server.use(handleFallbackError)
+
+const pool = getPostgresPool()
+const result = await pool.query("SELECT 1;")
 
 server.listen(PORT, () => {
     console.log("Server started on port", PORT)
