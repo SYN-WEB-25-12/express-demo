@@ -1,6 +1,6 @@
 import type { User } from "./user.types.js";
 import { getPostgresPool } from "../db/config.postgres.js";
-import { UserAlreadyExists } from "./user.errors.js";
+import { PG_ERROR, UniqueConstraintViolated } from "./user.errors.js";
 
 const pool = getPostgresPool()
 
@@ -13,7 +13,11 @@ async function createUser(username: string): Promise<User> {
         const result = await pool.query<User>(sql, [username])
         user = result.rows[0]!
     } catch (err) {
-        throw new UserAlreadyExists(username)
+        if (err instanceof Error && "code" in err && err.code == PG_ERROR.UNIQUE_CONSTRAINT_VIOLATED) {
+            throw new UniqueConstraintViolated("username", username)
+        }
+
+        throw err
     }
     
     return user
