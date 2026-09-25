@@ -1,4 +1,4 @@
-import { UserCreationFailed, UsernameTooShort } from "./user.errors.js"
+import { UsernameTooShort } from "./user.errors.js"
 import userRepository from "./user.repository.js"
 
 async function registerUser(username: string) {
@@ -7,10 +7,6 @@ async function registerUser(username: string) {
     }
 
     const user = await userRepository.create(username)
-
-    if (!user) {
-        throw new UserCreationFailed(username)
-    }
 
     return user
 }

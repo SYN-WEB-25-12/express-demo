@@ -9,9 +9,9 @@ export class UsernameTooShort extends Error {
     }
 }
 
-export class UserCreationFailed extends Error {
+export class UserAlreadyExists extends Error {
     constructor(username: string) {
-        const message = `A user with username '${username}' could not be created.`
+        const message = `A user with username '${username}' already exists.`
         console.log(message)
         super(message)
         this.name = new.target.name
