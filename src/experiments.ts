@@ -2,7 +2,7 @@ import { Router } from "express"
 import { checkAuth } from "./auth/auth.middleware.js"
 import { type RequestWithSession } from "./auth/auth.types.js"
 import cors from 'cors'
-import { getPostgresPool } from "./db/config.postgres.js"
+import { getPostgresPool } from "./db/postgres.config.js"
 
 const router = Router()
 

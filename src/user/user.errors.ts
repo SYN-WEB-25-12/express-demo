@@ -26,7 +26,3 @@ export class UniqueConstraintViolated extends Error {
         this.name = new.target.name
     }
 }
-
-export const PG_ERROR = {
-    UNIQUE_CONSTRAINT_VIOLATED: '23505'
-}
