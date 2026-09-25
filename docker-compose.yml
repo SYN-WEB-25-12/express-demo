@@ -3,14 +3,22 @@ services:
     image: postgres:15
     container_name: pg-db
     restart: always
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: "1234"
-      POSTGRES_DB: syntax_db
+    env_file:
+      - .env.docker-compose
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+  api:
+    container_name: api
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - .env.docker-compose
 
 volumes:
   pgdata:
