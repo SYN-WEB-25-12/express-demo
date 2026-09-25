@@ -1,8 +1,8 @@
 import type { User } from "./user.types.js";
 import { getPostgresPool } from "../db/postgres.config.js";
-import { UniqueConstraintViolated } from "./user.errors.js";
 import type { QueryResult } from "pg";
 import { isPgError, PG_ERROR } from "../db/postgres.errors.js";
+import { UniqueConstraintViolated } from "../db/errors.js";
 
 const pool = getPostgresPool()
 
@@ -14,14 +14,14 @@ async function createUser(username: string): Promise<User> {
     try {
         result = await pool.query(sql, [username])
     } catch (err) {
-        if (isPgError(err) && err.code == PG_ERROR.UNIQUE_CONSTRAINT_VIOLATED) {
+        if (isPgError(err) && PG_ERROR.UNIQUE_CONSTRAINT_VIOLATED == err.code) {
             throw new UniqueConstraintViolated("username", username)
         }
 
         throw err
     }
     
-    return result.rows[0]! // Always returns one row via RETURNING ...
+    return result.rows[0]! // always returns one row on INSERT ... RETURNING
 }
 
 async function getAllUsers(): Promise<User[]> {
