@@ -2,6 +2,7 @@ services:
   frontend:
     container_name: frontend
     build: ./frontend
+    command: npm run dev
     restart: always
     ports:
       - "5173:5173"  
@@ -13,6 +14,7 @@ services:
   backend:
     container_name: backend
     build: ./backend
+    command: npm run dev
     restart: always
     ports:
       - "3000:3000"
@@ -20,6 +22,9 @@ services:
       - database
     env_file:
       - .env.docker-compose
+    volumes:
+      - ./backend/src:/server/src
+
 
   database:
     image: postgres:15
