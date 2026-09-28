@@ -15,13 +15,13 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      - database
     env_file:
       - .env.docker-compose
 
-  db:
+  database:
     image: postgres:15
-    container_name: pg-db
+    container_name: database
     restart: always
     env_file:
       - .env.docker-compose
