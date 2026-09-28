@@ -3,6 +3,7 @@ FROM node:26-alpine
 WORKDIR /server
 
 COPY package*.json ./
+
 RUN npm install
 
 COPY . .
