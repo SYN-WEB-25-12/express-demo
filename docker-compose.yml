@@ -10,9 +10,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./src/db/init:/docker-entrypoint-initdb.d
-  api:
-    container_name: api
-    build: .
+  backend:
+    container_name: backend
+    build: ./backend
     restart: always
     ports:
       - "3000:3000"
