@@ -1,4 +1,24 @@
 services:
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    restart: always
+    ports:
+      - "5173:5173"  
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    build: ./backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - .env.docker-compose
+
   db:
     image: postgres:15
     container_name: pg-db
@@ -10,16 +30,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./src/db/init:/docker-entrypoint-initdb.d
-  backend:
-    container_name: backend
-    build: ./backend
-    restart: always
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    env_file:
-      - .env.docker-compose
+
 
 volumes:
   pgdata:
