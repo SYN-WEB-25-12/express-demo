@@ -6,6 +6,7 @@ const router = Router()
 
 router.post("/login", authController.login)
 router.post("/logout", authController.logout)
+router.get("/me", authController.me)
 router.use(checkAuthErrors)
 
 export default router

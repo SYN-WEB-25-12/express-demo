@@ -31,7 +31,15 @@ function logout(req: RequestWithSession, res: Response) {
     })
 }
 
+function me(req: RequestWithSession, res: Response) {
+    res.json({ 
+        message: "My profile", 
+        session: req.session 
+    })
+}
+
 export default {
     login,
-    logout
+    logout,
+    me
 }
