@@ -2,7 +2,7 @@ import type { User } from "./user.types.js";
 import { getPostgresPool } from "../../db/postgres.config.js";
 import type { QueryResult } from "pg";
 import { isPgError, PG_ERROR } from "../../db/postgres.errors.js";
-import { UniqueConstraintViolated } from "../../db/errors.js";
+import { UniqueConstraintViolated } from "../../db/db.errors.js";
 
 const pool = getPostgresPool()
 
