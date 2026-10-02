@@ -1,4 +1,3 @@
-// db/health.router.ts
 import { Router } from "express"
 import { getPostgresPool } from "./postgres.config.js"
 
