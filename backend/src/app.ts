@@ -17,8 +17,8 @@ app.use(morgan("dev"))
 
 // Routers
 app.use(authRouter)
-app.use("/todos", todoRouter)
 app.use("/users", userRouter)
+app.use("/todos", todoRouter)
 
 // Errors
 app.use(handleRouteNotFoundError)
