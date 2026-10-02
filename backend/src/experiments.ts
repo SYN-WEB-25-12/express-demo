@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { checkAuth } from "./auth/auth.middleware.js"
-import { type RequestWithSession } from "./auth/auth.types.js"
+import { checkAuth } from "./features/auth/auth.middleware.js"
+import { type RequestWithSession } from "./features/auth/auth.types.js"
 import cors from 'cors'
 import { getPostgresPool } from "./db/postgres.config.js"
 

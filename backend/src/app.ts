@@ -1,11 +1,11 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
-import todoRouter from "./todo/todo.router.js"
-import authRouter from "./auth/auth.router.js"
+import todoRouter from "./features/todo/todo.router.js"
+import authRouter from "./features/auth/auth.router.js"
 import experimentsRouter from "./experiments.js"
 import { handleFallbackError, handleRouteNotFoundError } from './middleware.js'
-import userRouter from './user/user.router.js'
+import userRouter from './features/user/user.router.js'
 
 const app = express()
 

@@ -1,4 +1,4 @@
-import { UniqueConstraintViolated } from "../db/errors.js"
+import { UniqueConstraintViolated } from "../../db/errors.js"
 import { UserAlreadyExists, UsernameTooShort } from "./user.errors.js"
 import userRepository from "./user.repository.js"
 import type { User } from "./user.types.js"
