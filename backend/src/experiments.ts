@@ -1,33 +1,9 @@
 import { Router } from "express"
 import { checkAuth } from "./features/auth/auth.middleware.js"
 import { type RequestWithSession } from "./features/auth/auth.types.js"
-import cors from 'cors'
 import { getPostgresPool } from "./db/postgres.config.js"
 
 const router = Router()
-
-// ============================================================
-// CORS = Cross-Origin Resource Sharing
-// ============================================================
-//
-// Origin (dt: Herkunft) = Protokoll + Host + Port
-//   Frontend (React/Vite): http://localhost:5173
-//   Backend  (Express):    http://localhost:3000
-// → Nur der Port ist anders, aber das sind ZWEI verschiedene Origins.
-//
-// Same-Origin-Policy: Der Browser lässt eine Seite die Antwort einer
-// anderen Origin nur lesen, wenn der Server das ausdrücklich erlaubt.
-// cors() setzt dafür den Header: Access-Control-Allow-Origin
-//
-// Ohne cors() beim fetch aus React:
-//   - Die Anfrage kommt hier trotzdem an, der Server antwortet.
-//   - Aber der Browser VERSTECKT die Antwort vor dem JavaScript.
-//   - Ergebnis: fetch schlägt fehl, Fehler in der Konsole.
-//
-// Wichtig: CORS ist KEIN Passwort und KEINE Anmeldung.
-// Es ist eine Regel des BROWSERS. Deshalb funktioniert Postman
-// auch ohne cors() — Postman ist kein Browser.
-router.use(cors())
 
 // ============================================================
 // WIEDERHOLUNG — gestern: Request-Response, Endpunkte, Status

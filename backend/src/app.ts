@@ -1,4 +1,5 @@
-import express from 'express'
+import express, { json } from 'express'
+import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import todoRouter from "./features/todo/todo.router.js"
@@ -10,8 +11,9 @@ import userRouter from './features/user/user.router.js'
 const app = express()
 
 // Middleware
-app.use(express.json())
+app.use(cors())
 app.use(cookieParser())
+app.use(json())
 app.use(morgan("dev"))
 
 // Routers
