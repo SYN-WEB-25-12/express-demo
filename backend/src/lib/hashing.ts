@@ -6,7 +6,15 @@ function sha256(input: string) {
         .digest("hex")
 }
 
-const hash = sha256("Hello, Syntax")
+function sha256_n(input: string, n: number) {
+    let output = input;
+    for (let i=0; i<n; i++) {
+        output = sha256(output)
+    }
+    return output
+}
+
+const hash = sha256_n("Hello, Syntax!", 3000000)
 
 console.log(hash)
 
@@ -17,3 +25,7 @@ console.log(hash)
 // "Hello, Syntax!"
 // 008f3c0bd8ec3424848e63a50ff9947ba9e1afcc8f8bde69876594db4c01de4d
 // AI88C9jsNCSEjmOlD/mUe6nhr8yPi95ph2WU20wB3k0=
+
+
+// b56363d07454d04a638ac94a9acbe457d929c1c878aa703ddf83b5e239ce87c8
+// 3136585f339c532d55a2a17f7b9f06871d8bd4d5ca3379f2593fe584d7df52d0
