@@ -24,6 +24,20 @@ async function createUser(username: string, passwordDigest: string): Promise<Use
     return result.rows[0]! // always returns one row on INSERT ... RETURNING
 }
 
+type UserWithDigest = User & { pw_digest: string }
+
+async function getUserWithPwDigest(username: string): Promise<UserWithDigest | null> {
+    const sql = "SELECT id, username, pw_digest FROM users WHERE username = $1;"
+
+    const result = await pool.query<UserWithDigest>(sql, [username])
+
+    if (result.rowCount === 0) {
+        return null;
+    }
+
+    return result.rows[0]!
+}
+
 async function getAllUsers(): Promise<User[]> {
     const sql = "SELECT id, username FROM users;"
 
@@ -34,5 +48,6 @@ async function getAllUsers(): Promise<User[]> {
 
 export default {
     create: createUser,
-    getAll: getAllUsers
+    getAll: getAllUsers,
+    getWithPwDigest: getUserWithPwDigest
 }

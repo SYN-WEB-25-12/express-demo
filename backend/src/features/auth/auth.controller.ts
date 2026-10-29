@@ -2,10 +2,10 @@ import { type Request, type Response } from "express"
 import authService from "./auth.service.js";
 import type { RequestWithSession } from "./auth.types.js";
 
-function login(req: Request<any, any, { username: string, password: string }>, res: Response) {
+async function login(req: Request<any, any, { username: string, password: string }>, res: Response) {
     const { username, password } = req.body;
 
-    const sessionId = authService.login(username, password);
+    const sessionId = await authService.login(username, password);
 
     res.cookie('sessionId', sessionId, { 
         httpOnly: true, 

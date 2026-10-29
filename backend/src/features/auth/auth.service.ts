@@ -1,11 +1,19 @@
 import { v4 as uuid } from 'uuid';
 import { type SessionId, type Session } from './auth.types.js';
 import { AuthenticationFailed, SessionIdNotProvided, SessionNotFound } from './auth.errors.js';
+import userRepository from '../user/user.repository.js';
+import { checkPassword } from '../../lib/password_hashing.js';
 
 const sessions = new Map<SessionId, Session>();
 
-function login(username: string, password: string) {
-    if (username !== 'admin' || password !== '123') {
+async function login(username: string, password: string) {
+    const user = await userRepository.getWithPwDigest(username);
+
+    const storedDigest = user?.pw_digest ?? "DIGEST_STUB" // gegen Timing-Attacken
+
+    const isPasswordCorrect = await checkPassword(password, storedDigest)
+
+    if (!isPasswordCorrect) {
         throw new AuthenticationFailed(username)
     }
 
