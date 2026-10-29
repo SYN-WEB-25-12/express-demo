@@ -1,6 +1,6 @@
 import { type Request, type Response } from "express"
 import authService from "./auth.service.js";
-import type { RequestWithSession } from "./auth.types.js";
+import type { RequestWithSession } from "./session.types.js";
 
 async function login(req: Request<any, any, { username: string, password: string }>, res: Response) {
     const { username, password } = req.body;
