@@ -6,13 +6,13 @@ import { UniqueConstraintViolated } from "../../db/db.errors.js";
 
 const pool = getPostgresPool()
 
-async function createUser(username: string): Promise<User> {
-    const sql = "INSERT INTO users (username) VALUES ($1) RETURNING id, username;"
+async function createUser(username: string, passwordDigest: string): Promise<User> {
+    const sql = "INSERT INTO users (username, pw_digest) VALUES ($1, $2) RETURNING id, username;"
 
     let result: QueryResult<User>
 
     try {
-        result = await pool.query(sql, [username])
+        result = await pool.query(sql, [username, passwordDigest])
     } catch (err) {
         if (isPgError(err) && PG_ERROR.UNIQUE_CONSTRAINT_VIOLATED == err.code) {
             throw new UniqueConstraintViolated("username", username)

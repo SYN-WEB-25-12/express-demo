@@ -1,10 +1,10 @@
 import type { Request, Response } from "express"
 import userService from "./user.service.js"
 
-async function registerUser(req: Request<any, any, { username: string }>, res: Response) {
-    const { username } = req.body
+async function registerUser(req: Request<any, any, { username: string, password: string }>, res: Response) {
+    const { username, password } = req.body
 
-    const user = await userService.register(username)
+    const user = await userService.register(username, password)
     
     res.status(201).json(user)
 }

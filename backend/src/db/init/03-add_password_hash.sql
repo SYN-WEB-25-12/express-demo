@@ -1,2 +1,2 @@
 ALTER TABLE users 
-ADD COLUMN pw_hash VARCHAR(255);
+ADD COLUMN pw_digest VARCHAR(255);
